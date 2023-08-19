@@ -1,0 +1,13 @@
+Package: rscatter
+Title: R Wrapper for 'regl-scatterplot' JavaScript Library
+Version: 0.0.0.9000
+Authors@R: 
+    person("David", "Ross", , "dave@davidpross.com", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0001-9998-3817"))
+Description: Using htmlwidgets framework provide R functions to wrap the regl-scatterplot JavaScript library. Create scalable interactive scatter plots in R, R Markdown, and Shiny.
+License: MIT
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.1
+Imports: 
+    htmlwidgets
