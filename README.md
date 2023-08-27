@@ -12,4 +12,4 @@ library(rscatter)
 
 rscatter(rnorm(1e4), rnorm(1e4))
 ```
-<img width="534" alt="scatter plot of 2D normally distributed points" src="https://github.com/davidpross/rscatter/assets/48140684/ec235af9-820c-4d35-9166-f2c366c42b2d">
+<img width="534" alt="plot" src="https://github.com/davidpross/rscatter/assets/48140684/1fcfade1-3ebf-4576-aaa1-c770a878b15f">
