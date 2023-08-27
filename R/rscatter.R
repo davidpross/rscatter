@@ -5,28 +5,45 @@
 #' @param x numeric vector of x coordinates, OR variable name for x in \code{data}
 #' @param y numeric vector of y coordinates, OR variable name for y in \code{data}
 #' @param data optional data.frame containing data to plot
+#' @param width fixed width of canvas in pixels (default is resizable)
+#' @param height fixed height of canvas in pixels (default is resizable)
+#' @param elementId specify id for containing div
+#' @param size point size
+#' @param color point color
+#' @param opacity point opacity
 #'
 #' @import htmlwidgets
 #'
 #' @export
-rscatter <- function(x, y, data = NULL, width = NULL, height = NULL, elementId = NULL) {
+rscatter <- function(x, y, data = NULL,
+                     width = NULL, height = NULL, elementId = NULL,
+                     size = NULL, color = NULL, opacity = NULL) {
 
   if (!is.null(data)) {
     x <- data[, deparse(substitute(x))]
     y <- data[, deparse(substitute(y))]
   }
-  
+
   if (!is.numeric(x) || !is.numeric(y)) {
     stop("x and y coordinates must be numeric")
   }
-  
+
+  # scale points to between -1 and 1
   points <- data.frame(x = -1 + 2 * (x - min(x)) / (max(x) - min(x)),
                        y = -1 + 2 * (y - min(y)) / (max(y) - min(y)))
 
-  # forward options using x
+  if (!is.null(color)) {
+    # convert color to hex code
+    color <- do.call(rgb, as.list(col2rgb(color)[,1]/255))
+  } else {
+    color <- "#0072B2"
+  }
+
+  # forward points and options using x
   x <- list(
     points = points,
-    options = NULL
+    options = list(size = size, color = color, opacity = opacity
+    )
   )
 
   # create widget

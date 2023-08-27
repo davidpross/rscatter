@@ -8,17 +8,34 @@ HTMLWidgets.widget({
 
     const canvas = document.createElement('canvas');
     canvas.id = 'canvas';
-    canvas.width = width;
-    canvas.height = height;
+    // canvas.style.backgroundColor = "black";
     el.appendChild(canvas);
     
-    var plot = rscatter.scatterplot(canvas, width, height)
+    var plot = rscatter.scatterplot(canvas)
 
     return {
 
       renderValue: function(x) {
 
         plot.draw(x.points)
+        plot.set({
+          keyMap: {},
+        })
+        plot.set({
+          pointColorHover: x.options.color,
+          pointColor: x.options.color,
+          pointSize: x.options.size,
+        })
+        
+        if (x.options.opacity) {
+          plot.set({
+            opacity: x.options.opacity,
+          })
+        } else {
+          plot.set({
+            opacityBy: "density",
+          })
+        }
 
       },
 

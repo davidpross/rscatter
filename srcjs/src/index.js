@@ -1,10 +1,8 @@
 import createScatterplot from 'regl-scatterplot';
 
-function scatterplot(canvas, width, height) {
+function scatterplot(canvas) {
     const newPlot = createScatterplot({
       canvas,
-      width,
-      height,
     });
     
     return newPlot
