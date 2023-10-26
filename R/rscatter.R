@@ -27,78 +27,79 @@ rscatter <-
            width = NULL,
            height = NULL,
            elementId = NULL) {
-
-  if (!is.null(data)) {
-    x <- data[, x]
-    y <- data[, y]
-    if (!is.null(colorBy)) {
-      colorBy <- data[, colorBy]
-    }
-  }
-
-  if (!is.numeric(x) || !is.numeric(y)) {
-    stop("x and y coordinates must be numeric")
-  }
-
-  if (!is.null(colorBy) && !is.numeric(colorBy) && !is.factor(colorBy) && !is.character(colorBy)) {
-    stop("colorBy must be numeric, character, or factor")
-  }
-
-  # scale points to between -1 and 1
-  points <- data.frame(x = -1 + 2 * (x - min(x)) / (max(x) - min(x)),
-                       y = -1 + 2 * (y - min(y)) / (max(y) - min(y)))
-
-  if (!is.null(colorBy)) {
-    if (is.character(colorBy) || is.factor(colorBy)) {
-      colorBy <- as.integer(as.factor(colorBy)) - 1
-    } else {
-      colorBy <- (colorBy - min(colorBy)) / (max(colorBy) - min(colorBy))
-    }
-    points <- cbind(points, valueA = colorBy)
-  }
-
-  if (!is.null(color)) {
-    # convert color to hex code
-    color <- do.call(rgb, as.list(col2rgb(color)[,1]/255))
-  } else {
-    if (!is.null(colorBy)) {
-      # default color mapping
-      n <- length(unique(points[["valueA"]]))
-      if (n < 9) {
-        color <- okabe_ito[1:n]
-      } else {
-        if (n > length(glasbey_light)) {
-          stop("Too many unique values to encode color categorically.")
-        }
-        color <- glasbey_light[1:n]
+    if (!is.null(data)) {
+      x <- data[, x]
+      y <- data[, y]
+      if (!is.null(colorBy)) {
+        colorBy <- data[, colorBy]
       }
-    } else {
-      color <- "#0072B2"
     }
-  }
 
-  # forward points and options using x
-  x <- list(
-    points = points,
-    options = list(
-      size = size, color = color, opacity = opacity
+    if (!is.numeric(x) || !is.numeric(y)) {
+      stop("x and y coordinates must be numeric")
+    }
+
+    if (!is.null(colorBy) && !is.numeric(colorBy) &&
+        !is.factor(colorBy) && !is.character(colorBy)) {
+      stop("colorBy must be numeric, character, or factor")
+    }
+
+    # scale points to between -1 and 1
+    points <-
+      data.frame(x = -1 + 2 * (x - min(x)) / (max(x) - min(x)),
+                 y = -1 + 2 * (y - min(y)) / (max(y) - min(y)))
+
+    if (!is.null(colorBy)) {
+      if (is.character(colorBy) || is.factor(colorBy)) {
+        colorBy <- as.integer(as.factor(colorBy)) - 1
+      } else {
+        colorBy <- (colorBy - min(colorBy)) / (max(colorBy) - min(colorBy))
+      }
+      points <- cbind(points, valueA = colorBy)
+    }
+
+    if (!is.null(color)) {
+      # convert color to hex code
+      color <- do.call(rgb, as.list(col2rgb(color)[, 1] / 255))
+    } else {
+      if (!is.null(colorBy)) {
+        # default color mapping
+        n <- length(unique(points[["valueA"]]))
+        if (n < 9) {
+          color <- okabe_ito[1:n]
+        } else {
+          if (n > length(glasbey_light)) {
+            stop("Too many unique values to encode color categorically.")
+          }
+          color <- glasbey_light[1:n]
+        }
+      } else {
+        color <- "#0072B2"
+      }
+    }
+
+    # forward points and options using x
+    x <- list(points = points,
+              options = list(
+                size = size,
+                color = color,
+                opacity = opacity
+              ))
+
+    if (!is.null(colorBy)) {
+      x[["options"]][["colorBy"]] <- "valueA"
+    }
+
+    # create widget
+    htmlwidgets::createWidget(
+      name = 'rscatter',
+      x,
+      width = width,
+      height = height,
+      package = 'rscatter',
+      elementId = elementId
     )
-  )
-
-  if (!is.null(colorBy)) {
-    x[["options"]][["colorBy"]] <- "valueA"
   }
-
-  # create widget
-  htmlwidgets::createWidget(
-    name = 'rscatter',
-    x,
-    width = width,
-    height = height,
-    package = 'rscatter',
-    elementId = elementId
-  )
-}
 
 #' Shiny bindings for rscatter
 #'
