@@ -2,12 +2,14 @@
 #'
 #' Create interactive scalable scatterplot using `regl-scatterplot` JavaScript library.
 #'
-#' @param x numeric vector of x coordinates, OR variable name for x in \code{data}
-#' @param y numeric vector of y coordinates, OR variable name for y in \code{data}
+#' For categorical color encoding ensure the `colorBy` values are factor or character vectors.
+#'
+#' @param x numeric vector of x coordinates, OR column name for x in \code{data}
+#' @param y numeric vector of y coordinates, OR column name for y in \code{data}
 #' @param size point size
 #' @param color point color
 #' @param opacity point opacity
-#' @param colorBy factor/chr/numeric vector to colorBy, OR variable name for colorBy in \code{data}
+#' @param colorBy factor/chr/numeric vector to colorBy, OR column name for colorBy in \code{data}
 #' @param data optional data.frame containing data to plot
 #' @param width fixed width of canvas in pixels (default is resizable)
 #' @param height fixed height of canvas in pixels (default is resizable)
@@ -50,8 +52,11 @@ rscatter <-
                  y = -1 + 2 * (y - min(y)) / (max(y) - min(y)))
 
     if (!is.null(colorBy)) {
+      if (anyNA(colorBy)) {
+        stop("NAs not allowed in colorBy values")
+      }
       if (is.character(colorBy) || is.factor(colorBy)) {
-        colorBy <- as.integer(as.factor(colorBy)) - 1
+        colorBy <- as.integer(as.factor(colorBy)) - 1L
       } else {
         colorBy <- (colorBy - min(colorBy)) / (max(colorBy) - min(colorBy))
       }
@@ -63,15 +68,20 @@ rscatter <-
       color <- do.call(rgb, as.list(col2rgb(color)[, 1] / 255))
     } else {
       if (!is.null(colorBy)) {
-        # default color mapping
-        n <- length(unique(points[["valueA"]]))
-        if (n < 9) {
-          color <- okabe_ito[1:n]
-        } else {
-          if (n > length(glasbey_light)) {
-            stop("Too many unique values to encode color categorically.")
+        if (is.integer(colorBy)) {
+          # categorical color encoding
+          n <- length(unique(points[["valueA"]]))
+          if (n < 9) {
+            color <- okabe_ito[1:n]
+          } else {
+            if (n > length(glasbey_light)) {
+              stop("Too many unique values to encode color categorically.")
+            }
+            color <- glasbey_light[1:n]
           }
-          color <- glasbey_light[1:n]
+        } else {
+          # continuous color encoding
+          color <- substr(viridisLite::viridis(n=256), 1, 7)
         }
       } else {
         color <- "#0072B2"

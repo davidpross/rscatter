@@ -4,15 +4,43 @@
 \alias{rscatter}
 \title{Scalable scatterplot HTML widget}
 \usage{
-rscatter(x, y, data = NULL, width = NULL, height = NULL, elementId = NULL)
+rscatter(
+  x,
+  y,
+  size = NULL,
+  color = NULL,
+  opacity = NULL,
+  colorBy = NULL,
+  data = NULL,
+  width = NULL,
+  height = NULL,
+  elementId = NULL
+)
 }
 \arguments{
-\item{x}{numeric vector of x coordinates, OR variable name for x in \code{data}}
+\item{x}{numeric vector of x coordinates, OR column name for x in \code{data}}
 
-\item{y}{numeric vector of y coordinates, OR variable name for y in \code{data}}
+\item{y}{numeric vector of y coordinates, OR column name for y in \code{data}}
+
+\item{size}{point size}
+
+\item{color}{point color}
+
+\item{opacity}{point opacity}
+
+\item{colorBy}{factor/chr/numeric vector to colorBy, OR column name for colorBy in \code{data}}
 
 \item{data}{optional data.frame containing data to plot}
+
+\item{width}{fixed width of canvas in pixels (default is resizable)}
+
+\item{height}{fixed height of canvas in pixels (default is resizable)}
+
+\item{elementId}{specify id for containing div}
 }
 \description{
 Create interactive scalable scatterplot using \code{regl-scatterplot} JavaScript library.
+}
+\details{
+For categorical color encoding ensure the \code{colorBy} values are factor or character vectors.
 }
