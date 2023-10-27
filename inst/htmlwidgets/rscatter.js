@@ -8,25 +8,30 @@ HTMLWidgets.widget({
 
     const canvas = document.createElement('canvas');
     canvas.id = 'canvas';
-    // canvas.style.backgroundColor = "black";
     el.appendChild(canvas);
-    
+
     var plot = rscatter.scatterplot(canvas)
 
     return {
 
       renderValue: function(x) {
 
-        plot.draw(x.points)
+        plot.draw({
+          x: x.points.x,
+          y: x.points.y,
+          valueA: x.points.valueA
+        })
         plot.set({
           keyMap: {},
         })
         plot.set({
-          pointColorHover: x.options.color,
+          // TODO: disable point hover color change?
+          pointColorHover: "#000000",
           pointColor: x.options.color,
           pointSize: x.options.size,
+          colorBy: x.options.colorBy,
         })
-        
+
         if (x.options.opacity) {
           plot.set({
             opacity: x.options.opacity,

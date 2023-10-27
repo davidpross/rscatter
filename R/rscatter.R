@@ -2,60 +2,114 @@
 #'
 #' Create interactive scalable scatterplot using `regl-scatterplot` JavaScript library.
 #'
-#' @param x numeric vector of x coordinates, OR variable name for x in \code{data}
-#' @param y numeric vector of y coordinates, OR variable name for y in \code{data}
+#' For categorical color encoding ensure the `colorBy` values are factor or character vectors.
+#'
+#' @param x numeric vector of x coordinates, OR column name for x in \code{data}
+#' @param y numeric vector of y coordinates, OR column name for y in \code{data}
+#' @param size point size
+#' @param color point color
+#' @param opacity point opacity
+#' @param colorBy factor/chr/numeric vector to colorBy, OR column name for colorBy in \code{data}
 #' @param data optional data.frame containing data to plot
 #' @param width fixed width of canvas in pixels (default is resizable)
 #' @param height fixed height of canvas in pixels (default is resizable)
 #' @param elementId specify id for containing div
-#' @param size point size
-#' @param color point color
-#' @param opacity point opacity
 #'
 #' @import htmlwidgets
 #'
 #' @export
-rscatter <- function(x, y, data = NULL,
-                     width = NULL, height = NULL, elementId = NULL,
-                     size = NULL, color = NULL, opacity = NULL) {
+rscatter <-
+  function(x,
+           y,
+           size = NULL,
+           color = NULL,
+           opacity = NULL,
+           colorBy = NULL,
+           data = NULL,
+           width = NULL,
+           height = NULL,
+           elementId = NULL) {
+    if (!is.null(data)) {
+      x <- data[, x]
+      y <- data[, y]
+      if (!is.null(colorBy)) {
+        colorBy <- data[, colorBy]
+      }
+    }
 
-  if (!is.null(data)) {
-    x <- data[, deparse(substitute(x))]
-    y <- data[, deparse(substitute(y))]
-  }
+    if (!is.numeric(x) || !is.numeric(y)) {
+      stop("x and y coordinates must be numeric")
+    }
 
-  if (!is.numeric(x) || !is.numeric(y)) {
-    stop("x and y coordinates must be numeric")
-  }
+    if (!is.null(colorBy) && !is.numeric(colorBy) &&
+        !is.factor(colorBy) && !is.character(colorBy)) {
+      stop("colorBy must be numeric, character, or factor")
+    }
 
-  # scale points to between -1 and 1
-  points <- data.frame(x = -1 + 2 * (x - min(x)) / (max(x) - min(x)),
-                       y = -1 + 2 * (y - min(y)) / (max(y) - min(y)))
+    # scale points to between -1 and 1
+    points <-
+      data.frame(x = -1 + 2 * (x - min(x)) / (max(x) - min(x)),
+                 y = -1 + 2 * (y - min(y)) / (max(y) - min(y)))
 
-  if (!is.null(color)) {
-    # convert color to hex code
-    color <- do.call(rgb, as.list(col2rgb(color)[,1]/255))
-  } else {
-    color <- "#0072B2"
-  }
+    if (!is.null(colorBy)) {
+      if (anyNA(colorBy)) {
+        stop("NAs not allowed in colorBy values")
+      }
+      if (is.character(colorBy) || is.factor(colorBy)) {
+        colorBy <- as.integer(as.factor(colorBy)) - 1L
+      } else {
+        colorBy <- (colorBy - min(colorBy)) / (max(colorBy) - min(colorBy))
+      }
+      points <- cbind(points, valueA = colorBy)
+    }
 
-  # forward points and options using x
-  x <- list(
-    points = points,
-    options = list(size = size, color = color, opacity = opacity
+    if (!is.null(color)) {
+      # convert color to hex code
+      color <- do.call(rgb, as.list(col2rgb(color)[, 1] / 255))
+    } else {
+      if (!is.null(colorBy)) {
+        if (is.integer(colorBy)) {
+          # categorical color encoding
+          n <- length(unique(points[["valueA"]]))
+          if (n < 9) {
+            color <- okabe_ito[1:n]
+          } else {
+            if (n > length(glasbey_light)) {
+              stop("Too many unique values to encode color categorically.")
+            }
+            color <- glasbey_light[1:n]
+          }
+        } else {
+          # continuous color encoding
+          color <- substr(viridisLite::viridis(n=256), 1, 7)
+        }
+      } else {
+        color <- "#0072B2"
+      }
+    }
+
+    # forward points and options using x
+    x <- list(points = points,
+              options = list(
+                size = size,
+                color = color,
+                opacity = opacity
+              ))
+
+    if (!is.null(colorBy)) {
+      x[["options"]][["colorBy"]] <- "valueA"
+    }
+
+    # create widget
+    htmlwidgets::createWidget(
+      name = 'rscatter',
+      x,
+      width = width,
+      height = height,
+      package = 'rscatter',
+      elementId = elementId
     )
-  )
-
-  # create widget
-  htmlwidgets::createWidget(
-    name = 'rscatter',
-    x,
-    width = width,
-    height = height,
-    package = 'rscatter',
-    elementId = elementId
-  )
-}
+  }
 
 #' Shiny bindings for rscatter
 #'

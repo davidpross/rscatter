@@ -11,4 +11,5 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.1
 Imports: 
     htmlwidgets (>= 1.6.2),
-    htmltools (>= 0.5.6)
+    htmltools (>= 0.5.6),
+    viridisLite
