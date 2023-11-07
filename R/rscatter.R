@@ -81,7 +81,7 @@ rscatter <-
           }
         } else {
           # continuous color encoding
-          color <- substr(viridisLite::viridis(n=256), 1, 7)
+          color <- viridis
         }
       } else {
         color <- "#0072B2"
