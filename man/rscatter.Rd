@@ -44,3 +44,17 @@ Create interactive scalable scatterplot using \code{regl-scatterplot} JavaScript
 \details{
 For categorical color encoding ensure the \code{colorBy} values are factor or character vectors.
 }
+\examples{
+data(quakes)
+rscatter(quakes$long, quakes$lat, size = 10, colorBy = quakes$depth)
+
+# Or pass data.frame
+phi = seq(from = 0, to = 50, by = 1e-2)
+fermat_spiral = data.frame(
+ x = c(-sqrt(phi)*cos(phi), sqrt(phi)*cos(phi)),
+ y = c(-sqrt(phi)*sin(phi), sqrt(phi)*sin(phi)),
+ branch = rep(c("a", "b"), each = length(phi))
+ )
+rscatter("x", "y", size = 1.5, colorBy = "branch", data = fermat_spiral)
+
+}

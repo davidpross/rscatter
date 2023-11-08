@@ -1,0 +1,15 @@
+url: ~
+template:
+  bootstrap: 5
+
+reference:
+- title: "Creating interactive scatterplot widget"
+  desc: "Function to create the HTML widget to render scatterplot"
+  contents:
+  - rscatter
+- title: "Embedding widget in Shiny or R Markdown"
+  desc: >
+    Functions for rendering widget in Shiny or interactive R Markdown documents
+  contents:
+  - rscatterOutput
+  - renderRscatter
