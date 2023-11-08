@@ -22,11 +22,13 @@
 #' rscatter(quakes$long, quakes$lat, size = 10, colorBy = quakes$depth)
 #'
 #' # Or pass data.frame
-#' phi = seq(from = 0, to = 100, by = 1e-1)
+#' phi = seq(from = 0, to = 100, by = 3e-2)
 #' fermat_spiral = data.frame(
-#'   x = -sqrt(phi)*cos(phi),
-#'   y = -sqrt(phi)*sin(phi))
-#' rscatter("x", "y", data = fermat_spiral)
+#'  x = c(-sqrt(phi)*cos(phi), sqrt(phi)*cos(phi)),
+#'  y = c(-sqrt(phi)*sin(phi), sqrt(phi)*sin(phi)),
+#'  branch = rep(c("a", "b"), each = length(phi))
+#'  )
+#' rscatter("x", "y", colorBy = "branch", data = fermat_spiral)
 #'
 #' @export
 rscatter <-
