@@ -17,6 +17,17 @@
 #'
 #' @import htmlwidgets
 #'
+#' @examples
+#' data(quakes)
+#' rscatter(quakes$long, quakes$lat, size = 10, colorBy = quakes$depth)
+#'
+#' # Or pass data.frame
+#' phi = seq(from = 0, to = 100, by = 1e-1)
+#' fermat_spiral = data.frame(
+#'   x = -sqrt(phi)*cos(phi),
+#'   y = -sqrt(phi)*sin(phi))
+#' rscatter("x", "y", data = fermat_spiral)
+#'
 #' @export
 rscatter <-
   function(x,
