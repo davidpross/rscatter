@@ -7,7 +7,7 @@
 #' @param x numeric vector of x coordinates, OR column name for x in \code{data}
 #' @param y numeric vector of y coordinates, OR column name for y in \code{data}
 #' @param size point size
-#' @param color point color
+#' @param color point color, pass named color vector to map colors to categories
 #' @param opacity point opacity
 #' @param colorBy factor/chr/numeric vector to colorBy, OR column name for colorBy in \code{data}
 #' @param data optional data.frame containing data to plot
@@ -68,8 +68,11 @@ rscatter <-
       if (anyNA(colorBy)) {
         stop("NAs not allowed in colorBy values")
       }
+      levels <- NULL
       if (is.character(colorBy) || is.factor(colorBy)) {
-        colorBy <- as.integer(as.factor(colorBy)) - 1L
+        colorBy <- as.factor(colorBy)
+        levels <- levels(colorBy)
+        colorBy <- as.integer(colorBy) - 1L
       } else {
         colorBy <- (colorBy - min(colorBy)) / (max(colorBy) - min(colorBy))
       }
@@ -78,7 +81,20 @@ rscatter <-
 
     if (!is.null(color)) {
       # convert color to hex code
-      color <- do.call(rgb, as.list(col2rgb(color)[, 1] / 255))
+      color <- apply(col2rgb(color) / 255, 2, function(x) rgb(x[1], x[2], x[3]))
+      if (!is.null(colorBy)) {
+        if (length(color) < length(levels)) {
+          stop("Not enough colors specified for number of categories")
+        }
+        if (!is.null(names(color))) {
+          missing <- setdiff(levels, names(color))
+          if (length(missing) != 0) {
+            stop(paste0("Missing color assignment for: ",
+                        paste(missing, collapse = ", ")))
+          }
+          color <- unname(color[levels])
+        }
+      }
     } else {
       if (!is.null(colorBy)) {
         if (is.integer(colorBy)) {
