@@ -24,7 +24,7 @@ rscatter(
 
 \item{size}{point size}
 
-\item{color}{point color}
+\item{color}{point color, pass named color vector to map colors to categories}
 
 \item{opacity}{point opacity}
 
