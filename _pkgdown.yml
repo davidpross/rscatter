@@ -13,3 +13,10 @@ reference:
   contents:
   - rscatterOutput
   - renderRscatter
+
+articles:
+- title: Articles
+  navbar: ~
+  contents:
+  - getting-started
+  - color-encoding
