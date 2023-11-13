@@ -8,7 +8,7 @@
 #' @param y numeric vector of y coordinates, OR column name for y in \code{data}
 #' @param size point size
 #' @param color point color, pass named color vector to map colors to categories
-#' @param opacity point opacity
+#' @param opacity point opacity, if not specified the opacity will vary with point density and zoom level
 #' @param colorBy factor/chr/numeric vector to colorBy, OR column name for colorBy in \code{data}
 #' @param data optional data.frame containing data to plot
 #' @param width fixed width of canvas in pixels (default is resizable)
