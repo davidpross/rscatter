@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="index.html">rscatter</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,6 +38,13 @@
 <li class="nav-item">
   <a class="nav-link" href="reference/index.html">Reference</a>
 </li>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="articles/getting-started.html">Getting started with rscatter</a>
+    <a class="dropdown-item" href="articles/color-encoding.html">Encode point color from values in your data</a>
+  </div>
+</li>
 <li class="nav-item">
   <a class="nav-link" href="news/index.html">Changelog</a>
 </li>
@@ -46,7 +53,14 @@
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="search.json" id="search-input" placeholder="Search for" autocomplete="off">
 </form>
 
-      <ul class="navbar-nav"></ul>
+      <ul class="navbar-nav">
+<li class="nav-item">
+  <a class="external-link nav-link" href="https://github.com/davidpross/rscatter/" aria-label="github">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
 </div>
 
     
@@ -56,7 +70,7 @@
   <main id="main" class="col-md-9"><div class="section level1">
 <div class="page-header"><h1 id="introducing-rscatter">Introducing rscatter<a class="anchor" aria-label="anchor" href="#introducing-rscatter"></a>
 </h1></div>
-<p>An R package that creates an <a href="https://www.htmlwidgets.org/" class="external-link">htmlwidget</a> wrapping the <a href="https://github.com/flekschas/regl-scatterplot" class="external-link">regl-scatterplot</a> JavaScript library. Create pan-and-zoomable scatterplots that scale to millions of points and display in the RStudio viewer, R Markdown, Quarto, and Shiny.</p>
+<p>An R package that creates an <a href="https://www.htmlwidgets.org/" class="external-link">htmlwidget</a> wrapping the <a href="https://github.com/flekschas/regl-scatterplot" class="external-link">regl-scatterplot</a> JavaScript library. Create pan-and-zoomable scatterplots—with the <a href="https://davidpross.github.io/rscatter/reference/rscatter.html" class="external-link">rscatter</a> function—that scale to millions of points and display in the RStudio viewer, R Markdown, Quarto, and Shiny.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Install remotes package if necessary</span></span>
 <span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://remotes.r-lib.org" class="external-link">"remotes"</a></span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
@@ -64,7 +78,7 @@
 <span><span class="op">}</span></span>
 <span></span>
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"davidpross/rscatter"</span>, upgrade <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">rscatter</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/davidpross/rscatter" class="external-link">rscatter</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="reference/rscatter.html">rscatter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">1e4</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">1e4</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img width="534" alt="plot" src="https://github.com/davidpross/rscatter/assets/48140684/1fcfade1-3ebf-4576-aaa1-c770a878b15f"></p>
@@ -80,7 +94,15 @@
 </ul>
 </div>
 
-  </main><aside class="col-md-3"><div class="license">
+  </main><aside class="col-md-3"><div class="links">
+<h2 data-toc-skip>Links</h2>
+<ul class="list-unstyled">
+<li><a href="https://github.com/davidpross/rscatter/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/davidpross/rscatter/issues" class="external-link">Report a bug</a></li>
+</ul>
+</div>
+
+<div class="license">
 <h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>
