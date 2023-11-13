@@ -1,3 +1,8 @@
+# rscatter 0.1.1
+
+- Allow named color vector for categorical color encoding
+- Add [vignettes](https://davidpross.github.io/rscatter/articles/)
+
 # rscatter 0.1.0
 
 - Add [package documentation](https://davidpross.github.io/rscatter/)

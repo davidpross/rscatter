@@ -1,0 +1,60 @@
+---
+title: "Getting started with rscatter"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting started with rscatter}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+The `rscatter` package is an R package that creates an [htmlwidget](https://www.htmlwidgets.org/) wrapping the [regl-scatterplot](https://github.com/flekschas/regl-scatterplot) JavaScript library. An htmlwidget widget outputs HTML, CSS, and JavaScript for viewing in various contexts that support HTML such as the viewer pane in RStudio, interactive R Markdown and Quarto documents, and Shiny apps.
+
+In the case of rscatter the API is similar to other plotting functions in R and HTML is rendered that creates pan-and-zoomable scatterplots that scale to millions of points.
+
+## Installation
+
+The rscatter package is not yet on CRAN. You may install it from the GitHub repository.
+
+```{r install, eval=FALSE}
+# Install remotes package if necessary
+if (!require("remotes")) {
+  install.packages("remotes")
+}
+
+remotes::install_github("davidpross/rscatter", upgrade = FALSE)
+```
+
+## Basic usage
+
+You can view the full documentation for the rscatter function [here](https://davidpross.github.io/rscatter/reference/rscatter.html) but you can get going quickly by simply passing your x and y coordinates.
+
+```{r basic, out.width="100%"}
+library(rscatter)
+rscatter(rnorm(1e4), rnorm(1e4))
+```
+
+You can interact with the rendered plot by zooming and panning it. There is no support [yet](https://github.com/davidpross/rscatter/issues/6) for displaying axes and a legend.
+
+## Plotting values in a data.frame
+
+Many times during exploratory data analysis we have our data in a data.frame object. You can plot the values from your data.frame as shown in the following example.
+
+```{r spiral, out.width="100%"}
+phi = seq(from = 0, to = 50, by = 1e-2)
+fermat_spiral = data.frame(
+ x = c(-sqrt(phi)*cos(phi), sqrt(phi)*cos(phi)),
+ y = c(-sqrt(phi)*sin(phi), sqrt(phi)*sin(phi)),
+ branch = rep(c("a", "b"), each = length(phi))
+ )
+rscatter("x", "y", size = 1.5, colorBy = "branch", data = fermat_spiral)
+```
+
+Even with ~10K points the plot renders quickly and is responsive when interacting with it.
+
+

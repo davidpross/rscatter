@@ -1,5 +1,5 @@
 # Introducing rscatter
-An R package that creates an [htmlwidget](https://www.htmlwidgets.org/) wrapping the [regl-scatterplot](https://github.com/flekschas/regl-scatterplot) JavaScript library. Create pan-and-zoomable scatterplots that scale to millions of points and display in the RStudio viewer, R Markdown, Quarto, and Shiny.
+An R package that creates an [htmlwidget](https://www.htmlwidgets.org/) wrapping the [regl-scatterplot](https://github.com/flekschas/regl-scatterplot) JavaScript library. Create pan-and-zoomable scatterplots—with the [rscatter](https://davidpross.github.io/rscatter/reference/rscatter.html) function—that scale to millions of points and display in the RStudio viewer, R Markdown, Quarto, and Shiny.
 
 ```R
 # Install remotes package if necessary

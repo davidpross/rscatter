@@ -1,6 +1,6 @@
 Package: rscatter
 Title: R Wrapper for 'regl-scatterplot' JavaScript Library
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: 
     person("David", "Ross", , "dave@davidpross.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-9998-3817"))
@@ -12,5 +12,10 @@ RoxygenNote: 7.2.1
 Imports: 
     htmlwidgets (>= 1.6.2)
 Suggests: 
+    knitr,
+    rmarkdown,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
+VignetteBuilder: knitr
+URL: https://github.com/davidpross/rscatter
+BugReports: https://github.com/davidpross/rscatter/issues

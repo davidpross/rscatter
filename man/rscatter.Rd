@@ -26,7 +26,7 @@ rscatter(
 
 \item{color}{point color, pass named color vector to map colors to categories}
 
-\item{opacity}{point opacity}
+\item{opacity}{point opacity, if not specified the opacity will vary with point density and zoom level}
 
 \item{colorBy}{factor/chr/numeric vector to colorBy, OR column name for colorBy in \code{data}}
 
