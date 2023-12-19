@@ -16,16 +16,22 @@ ui <- fluidPage(
       # Input: Slider for range ----
       sliderInput(inputId = "range",
                   label = "Range:",
-                  min = pi/2,
-                  max = 50*pi,
-                  step = pi/4,
-                  value = 10*pi),
+                  min = 0.5,
+                  max = 6,
+                  step = 0.5,
+                  round = -2,
+                  post = "π",
+                  ticks = FALSE,
+                  value = 4),
 
       # Input: Slider for the step ----
       sliderInput(inputId = "step",
                   label = "Step:",
                   min = 0.001,
                   max = 1,
+                  step = 0.05,
+                  ticks = FALSE,
+                  animate = TRUE,
                   value = 0.01),
 
       # Input: Slider for the point size ----
@@ -39,7 +45,7 @@ ui <- fluidPage(
 
     # Main panel for displaying outputs ----
     mainPanel(
-      rscatterOutput("rscatterPlot", height = "700px")
+      rscatterOutput("rscatterPlot", height = "500px")
     )
   )
 )
@@ -48,7 +54,7 @@ ui <- fluidPage(
 server <- function(input, output) {
 
   output$rscatterPlot <- renderRscatter({
-    phi = seq(from = 0, to = input$range, by = input$step)
+    phi = seq(from = 0, to = input$range*pi, by = input$step)
     fermat_spiral = data.frame(
      x = c(-sqrt(phi)*cos(phi), sqrt(phi)*cos(phi)),
      y = c(-sqrt(phi)*sin(phi), sqrt(phi)*sin(phi)),
