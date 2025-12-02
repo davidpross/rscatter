@@ -1,3 +1,7 @@
+# rscatter 0.2.0
+
+- Upgrade underlying regl-scatterplot JavaScript library to v1.14.1.
+
 # rscatter 0.1.1
 
 - Allow named color vector for categorical color encoding
