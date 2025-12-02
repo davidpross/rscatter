@@ -50,7 +50,7 @@ ui <- fluidPage(
   )
 )
 
-# Define server logic required to draw a histogram ----
+# Server: generate Fermat spiral points and render with rscatter ----
 server <- function(input, output) {
 
   output$rscatterPlot <- renderRscatter({
