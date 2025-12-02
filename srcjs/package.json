@@ -3,7 +3,7 @@
     "regl-scatterplot": "^1.14.1"
   },
   "name": "rscatter",
-  "version": "0.2.0",
+  "version": "0.1.1.9000",
   "main": "index.js",
   "devDependencies": {
     "webpack": "^5.88.2",

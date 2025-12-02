@@ -1,6 +1,6 @@
 Package: rscatter
 Title: R Wrapper for 'regl-scatterplot' JavaScript Library
-Version: 0.1.1
+Version: 0.1.1.9000
 Authors@R: 
     person("David", "Ross", , "dave@davidpross.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-9998-3817"))

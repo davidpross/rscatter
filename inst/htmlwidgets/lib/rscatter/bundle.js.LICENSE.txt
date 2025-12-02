@@ -1,16 +1,4 @@
 /**
-   * Douglas Peucker square segment distance
-   * Implementation from https://github.com/mourner/simplify-js
-   * @author Vladimir Agafonkin
-   * @copyright Vladimir Agafonkin 2013
-   * @license BSD
-   * @param {array} p - Point
-   * @param {array} p1 - First boundary point
-   * @param {array} p2 - Second boundary point
-   * @return {number} Distance
-   */
-
-/**
  * KDBush - A fast static index for 2D points
  * @license ISC License
  * @copyright Vladimir Agafonkin 2018
