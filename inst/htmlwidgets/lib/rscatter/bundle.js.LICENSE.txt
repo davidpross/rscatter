@@ -9,3 +9,11 @@
    * @param {array} p2 - Second boundary point
    * @return {number} Distance
    */
+
+/**
+ * KDBush - A fast static index for 2D points
+ * @license ISC License
+ * @copyright Vladimir Agafonkin 2018
+ * @version 4.0.2
+ * @see https://github.com/mourner/kdbush/
+ */

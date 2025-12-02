@@ -10,7 +10,7 @@ Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.1
 Imports: 
-    htmlwidgets (>= 1.6.2)
+    htmlwidgets (>= 1.5.4)
 Suggests: 
     knitr,
     rmarkdown,
