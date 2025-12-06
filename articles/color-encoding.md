@@ -1,0 +1,60 @@
+# Encode point color from values in your data
+
+The rscatter function has an argument `color` to set the point color to
+a static color value.
+
+``` r
+library(rscatter)
+data("faithful")
+rscatter("waiting", "eruptions", data = faithful, color = "peachpuff3")
+```
+
+However often you will want to encode the point color based on the
+different values in your dataset, from both categorical and continuous
+variables.
+
+To encode point color based on categorical values in your data make sure
+the variable is a character or factor.
+
+``` r
+data("quakes")
+rscatter(quakes$long, quakes$lat, colorBy = cut(quakes$depth, 2))
+```
+
+The above plot categorizes the depth of the quake into two categories.
+To visualize the depth variable using a continuous color map leave it as
+a numeric variable.
+
+``` r
+rscatter(quakes$long, quakes$lat, colorBy = quakes$depth)
+```
+
+In both of these cases we didn’t specify the exact colors to use,
+defaults were selected. However you can specify the colors you want.
+
+For categorical color mapping pass a named color vector to the `color`
+argument of the `rscatter` function. Reusing our example from the
+introductory vignette we will explicitly set the color for the branches
+of the spiral.
+
+``` r
+phi = seq(from = 0, to = 50, by = 1e-2)
+fermat_spiral = data.frame(
+ x = c(-sqrt(phi)*cos(phi), sqrt(phi)*cos(phi)),
+ y = c(-sqrt(phi)*sin(phi), sqrt(phi)*sin(phi)),
+ branch = rep(c("a", "b"), each = length(phi))
+ )
+my_colors <- c("a" = "#FCFF8B", "b" = "#F2ACE0")
+rscatter("x", "y", size = 1.5, color = my_colors, colorBy = "branch", data = fermat_spiral)
+```
+
+For a continuous color map send the palette to the `color` argument.
+
+``` r
+n = seq(from = 0, to = 2*pi, by = 0.1)
+y = sin(n)
+dist = abs(y)
+YlOrBr <- c("#FFFFD4", "#FED98E", "#FE9929", "#D95F0E", "#993404")
+my_colors <- colorRampPalette(YlOrBr, space = "Lab")(256)
+rscatter(n, y, color = my_colors, colorBy = dist)
+```
