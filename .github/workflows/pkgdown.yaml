@@ -37,8 +37,9 @@ jobs:
 
       - name: Deploy to GitHub pages 🚀
         if: github.event_name != 'pull_request'
-        uses: JamesIves/github-pages-deploy-action@v4.4.1
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          clean: false
+          clean: true
           branch: gh-pages
           folder: docs
+          single-commit: true
