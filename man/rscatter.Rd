@@ -12,6 +12,7 @@ rscatter(
   opacity = NULL,
   colorBy = NULL,
   data = NULL,
+  showLegend = FALSE,
   width = NULL,
   height = NULL,
   elementId = NULL
@@ -22,7 +23,7 @@ rscatter(
 
 \item{y}{numeric vector of y coordinates, OR column name for y in \code{data}}
 
-\item{size}{point size}
+\item{size}{point size; if not provided, a reasonable default is chosen based on the number of points}
 
 \item{color}{point color, pass named color vector to map colors to categories}
 
@@ -31,6 +32,8 @@ rscatter(
 \item{colorBy}{factor/chr/numeric vector to colorBy, OR column name for colorBy in \code{data}}
 
 \item{data}{optional data.frame containing data to plot}
+
+\item{showLegend}{logical; if \code{TRUE} and \code{colorBy} is categorical, render a legend using the color mapping}
 
 \item{width}{fixed width of canvas in pixels (default is resizable)}
 

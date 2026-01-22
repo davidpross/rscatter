@@ -6,11 +6,12 @@
 #'
 #' @param x numeric vector of x coordinates, OR column name for x in \code{data}
 #' @param y numeric vector of y coordinates, OR column name for y in \code{data}
-#' @param size point size
+#' @param size point size; if not provided, a reasonable default is chosen based on the number of points
 #' @param color point color, pass named color vector to map colors to categories
 #' @param opacity point opacity, if not specified the opacity will vary with point density and zoom level
 #' @param colorBy factor/chr/numeric vector to colorBy, OR column name for colorBy in \code{data}
 #' @param data optional data.frame containing data to plot
+#' @param showLegend logical; if \code{TRUE} and \code{colorBy} is categorical, render a legend using the color mapping
 #' @param width fixed width of canvas in pixels (default is resizable)
 #' @param height fixed height of canvas in pixels (default is resizable)
 #' @param elementId specify id for containing div
@@ -39,6 +40,7 @@ rscatter <-
            opacity = NULL,
            colorBy = NULL,
            data = NULL,
+           showLegend = FALSE,
            width = NULL,
            height = NULL,
            elementId = NULL) {
@@ -59,10 +61,23 @@ rscatter <-
       stop("colorBy must be numeric, character, or factor")
     }
 
-    # scale points to between -1 and 1
-    points <-
-      data.frame(x = -1 + 2 * (x - min(x)) / (max(x) - min(x)),
-                 y = -1 + 2 * (y - min(y)) / (max(y) - min(y)))
+  # scale points to between -1 and 1
+  x_range <- max(x) - min(x)
+  y_range <- max(y) - min(y)
+
+  points <- data.frame(
+    x = if (x_range == 0) 0 else -1 + 2 * (x - min(x)) / x_range,
+    y = if (y_range == 0) 0 else -1 + 2 * (y - min(y)) / y_range
+  )
+
+    if (is.null(size)) {
+      n_points <- nrow(points)
+      # Auto-size based on point count to balance visibility and overplotting
+      # Buckets: <100 pts, 100-1K, 1K-10K, 10K-100K, 100K+
+      breaks <- c(0, 100, 1000, 10000, 100000)
+      sizes  <- c(8, 6, 4, 2, 1)
+      size <- sizes[findInterval(n_points, breaks)]
+    }
 
     if (!is.null(colorBy)) {
       if (anyNA(colorBy)) {
@@ -127,6 +142,14 @@ rscatter <-
 
     if (!is.null(colorBy)) {
       x[["options"]][["colorBy"]] <- "valueA"
+    }
+
+    if (showLegend && !is.null(levels)) {
+      labels <- if (!is.null(names(color))) names(color) else levels
+      x[["options"]][["legend"]] <-
+        lapply(seq_along(levels), function(i) {
+          list(label = labels[[i]], color = color[[i]], index = i - 1L)
+        })
     }
 
     # create widget
