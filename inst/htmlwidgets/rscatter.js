@@ -58,6 +58,9 @@ HTMLWidgets.widget({
           }
           return indices;
         };
+        
+        // Helper function to determine if category is currently highlighted
+        const isAnyActive = () => legendContainer.querySelector('[data-active="true"]') !== null;
 
         // Build legend if provided
         if (Array.isArray(x.options.legend) && x.options.legend.length > 0) {
@@ -67,10 +70,14 @@ HTMLWidgets.widget({
 
           x.options.legend.forEach(entry => {
             const row = document.createElement('div');
+            row.className = 'rscatter-row';
             row.style.display = 'flex';
             row.style.alignItems = 'center';
             row.style.gap = '8px';
             row.style.cursor = 'pointer';
+            row.style.paddingLeft = '4px'; // Space for the indicator
+            row.style.borderLeft = '3px solid transparent'; 
+            row.style.transition = 'border-color 0.2s, opacity 0.2s'; // Smooth transition
             row.dataset.categoryIndex = entry.index;
             row.dataset.active = 'false';
 
@@ -91,6 +98,12 @@ HTMLWidgets.widget({
 
             // Mouse enter: highlight points for this category
             row.addEventListener('mouseenter', () => {
+              // if any category is locked ignore hover
+              if (isAnyActive()) return;
+              
+              // show selected
+              row.style.borderLeftColor = entry.color;
+
               const indices = getIndicesForCategory(entry.index);
               if (indices.length > 0 && typeof plot.select === 'function') {
                 plot.select(indices);
@@ -99,7 +112,13 @@ HTMLWidgets.widget({
 
             // Mouse leave: if not locked (clicked), clear selection
             row.addEventListener('mouseleave', () => {
-              if (row.dataset.active !== 'true' && typeof plot.select === 'function') {
+              // if any category is locked ignore hover
+              if (isAnyActive()) return;
+              
+              // not selected
+              row.style.borderLeftColor = 'transparent';
+
+              if (typeof plot.select === 'function') {
                 plot.select([]);
               }
             });
@@ -107,23 +126,27 @@ HTMLWidgets.widget({
             // Click: toggle locked selection for this category
             row.addEventListener('click', () => {
               const isActive = row.dataset.active === 'true';
-
-              // Clear all active states
-              legendContainer.querySelectorAll('[data-category-index]').forEach(el => {
-                el.dataset.active = 'false';
-                el.style.opacity = '1';
-              });
+              const allRows = legendContainer.querySelectorAll('.rscatter-row');
 
               // Toggle this row's active state
               if (isActive) {
                 // Was active, now deactivate
+                row.dataset.active = 'false'
+                allRows.forEach(el => {
+                  el.style.opacity = '1.0';
+                  el.style.borderLeftColor = 'transparent';
+                });
                 if (typeof plot.select === 'function') {
                   plot.select([]);
                 }
               } else {
-                // Activate this row
-                row.dataset.active = 'true';
-                row.style.opacity = '0.7';
+                // Activate and Dim
+                allRows.forEach(el => {
+                  const isCurrent = (el === row);
+                  el.dataset.active = isCurrent ? 'true' : 'false';
+                  el.style.opacity = isCurrent ? '1.0' : '0.5';
+                  el.style.borderLeftColor = isCurrent ? entry.color : 'transparent';
+                });
                 const indices = getIndicesForCategory(entry.index);
                 if (indices.length > 0 && typeof plot.select === 'function') {
                   plot.select(indices);

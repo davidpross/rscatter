@@ -45,10 +45,10 @@ rscatter <-
            height = NULL,
            elementId = NULL) {
     if (!is.null(data)) {
-      x <- data[, x]
-      y <- data[, y]
+      x <- data[[x]]
+      y <- data[[y]]
       if (!is.null(colorBy)) {
-        colorBy <- data[, colorBy]
+        colorBy <- data[[colorBy]]
       }
     }
 
