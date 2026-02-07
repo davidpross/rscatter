@@ -27,7 +27,7 @@ jobs:
       
       - name: Build site with Nix
         run: |
-          nix-shell --run "Rscript -e 'remotes::install_local(\".\", upgrade = \"never\"); pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)'"
+          nix-shell --run "Rscript -e 'pkgdown::build_site_github_pages(new_process = FALSE, install = TRUE)'"
 
       - name: Deploy to GitHub pages 🚀
         if: github.event_name != 'pull_request'
