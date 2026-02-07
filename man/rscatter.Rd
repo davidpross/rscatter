@@ -12,6 +12,7 @@ rscatter(
   opacity = NULL,
   colorBy = NULL,
   data = NULL,
+  preserveAspect = TRUE,
   showLegend = FALSE,
   width = NULL,
   height = NULL,
@@ -32,6 +33,8 @@ rscatter(
 \item{colorBy}{factor/chr/numeric vector to colorBy, OR column name for colorBy in \code{data}}
 
 \item{data}{optional data.frame containing data to plot}
+
+\item{preserveAspect}{logical; if \code{TRUE} (default), normalize x and y using the same scale to preserve aspect ratio and distance relationships; if \code{FALSE}, normalize x and y independently to fill the canvas}
 
 \item{showLegend}{logical; if \code{TRUE} and \code{colorBy} is categorical, render a legend using the color mapping}
 

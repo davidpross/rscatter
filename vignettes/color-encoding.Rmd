@@ -19,7 +19,13 @@ The rscatter function has an argument `color` to set the point color to a static
 ```{r static, out.width="100%"}
 library(rscatter)
 data("faithful")
-rscatter("waiting", "eruptions", data = faithful, color = "peachpuff3")
+rscatter(
+  "waiting",
+  "eruptions",
+  data = faithful,
+  color = "peachpuff3",
+  preserveAspect = FALSE
+)
 ```
 
 However often you will want to encode the point color based on the different values in your dataset, from both categorical and continuous variables.
@@ -31,7 +37,7 @@ data("quakes")
 rscatter(quakes$long, quakes$lat, colorBy = cut(quakes$depth, 2))
 ```
 
-The above plot categorizes the depth of the quake into two categories. To visualize the depth variable using a continuous color map leave it as a numeric variable.
+The above plot categorizes the depth of the quake into two categories. To learn how to add a legend to the plot, view [this article](https://davidpross.github.io/rscatter/articles/tabula-sapiens.html). To visualize the depth variable using a continuous color map leave it as a numeric variable.
 
 ```{r continuous, out.width="100%"}
 rscatter(quakes$long, quakes$lat, colorBy = quakes$depth)
@@ -49,7 +55,14 @@ fermat_spiral = data.frame(
  branch = rep(c("a", "b"), each = length(phi))
  )
 my_colors <- c("a" = "#FCFF8B", "b" = "#F2ACE0")
-rscatter("x", "y", size = 1.5, color = my_colors, colorBy = "branch", data = fermat_spiral)
+rscatter(
+  "x",
+  "y",
+  size = 1.5,
+  color = my_colors,
+  colorBy = "branch",
+  data = fermat_spiral
+)
 ```
 
 For a continuous color map send the palette to the `color` argument.

@@ -11,6 +11,7 @@
 #' @param opacity point opacity, if not specified the opacity will vary with point density and zoom level
 #' @param colorBy factor/chr/numeric vector to colorBy, OR column name for colorBy in \code{data}
 #' @param data optional data.frame containing data to plot
+#' @param preserveAspect logical; if \code{TRUE} (default), normalize x and y using the same scale to preserve aspect ratio and distance relationships; if \code{FALSE}, normalize x and y independently to fill the canvas
 #' @param showLegend logical; if \code{TRUE} and \code{colorBy} is categorical, render a legend using the color mapping
 #' @param width fixed width of canvas in pixels (default is resizable)
 #' @param height fixed height of canvas in pixels (default is resizable)
@@ -40,6 +41,7 @@ rscatter <-
            opacity = NULL,
            colorBy = NULL,
            data = NULL,
+           preserveAspect = TRUE,
            showLegend = FALSE,
            width = NULL,
            height = NULL,
@@ -61,14 +63,31 @@ rscatter <-
       stop("colorBy must be numeric, character, or factor")
     }
 
-  # scale points to between -1 and 1
-  x_range <- max(x) - min(x)
-  y_range <- max(y) - min(y)
+    # Scale points to between -1 and 1
+    x_min <- min(x)
+    x_max <- max(x)
+    y_min <- min(y)
+    y_max <- max(y)
 
-  points <- data.frame(
-    x = if (x_range == 0) 0 else -1 + 2 * (x - min(x)) / x_range,
-    y = if (y_range == 0) 0 else -1 + 2 * (y - min(y)) / y_range
-  )
+    x_center <- (x_max + x_min) / 2
+    y_center <- (y_max + y_min) / 2
+
+    if (preserveAspect) {
+      # Use same scale for both axes to preserve aspect ratio
+      data_range <- max(x_max - x_min, y_max - y_min)
+      points <- data.frame(
+        x = round(if (data_range == 0) 0 else (x - x_center) / (data_range / 2), 4),
+        y = round(if (data_range == 0) 0 else (y - y_center) / (data_range / 2), 4)
+      )
+    } else {
+      # Normalize x and y independently to fill canvas
+      x_range <- x_max - x_min
+      y_range <- y_max - y_min
+      points <- data.frame(
+        x = round(if (x_range == 0) 0 else (x - x_center) / (x_range / 2), 4),
+        y = round(if (y_range == 0) 0 else (y - y_center) / (y_range / 2), 4)
+      )
+    }
 
     if (is.null(size)) {
       n_points <- nrow(points)
@@ -89,7 +108,7 @@ rscatter <-
         levels <- levels(colorBy)
         colorBy <- as.integer(colorBy) - 1L
       } else {
-        colorBy <- (colorBy - min(colorBy)) / (max(colorBy) - min(colorBy))
+        colorBy <- round((colorBy - min(colorBy)) / (max(colorBy) - min(colorBy)), 4)
       }
       points <- cbind(points, valueA = colorBy)
     }

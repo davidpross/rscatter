@@ -7,7 +7,7 @@ if (!require("remotes")) {
   install.packages("remotes")
 }
 
-remotes::install_github("davidpross/rscatter@v0.1.1", upgrade = FALSE)
+remotes::install_github("davidpross/rscatter", upgrade = FALSE)
 library(rscatter)
 
 rscatter(rnorm(1e4), rnorm(1e4))

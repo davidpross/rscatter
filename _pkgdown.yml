@@ -1,4 +1,4 @@
-url: ~
+url: https://davidpross.github.io/rscatter
 template:
   bootstrap: 5
 
@@ -20,3 +20,4 @@ articles:
   contents:
   - getting-started
   - color-encoding
+  - tabula-sapiens

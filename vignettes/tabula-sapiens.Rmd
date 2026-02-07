@@ -1,0 +1,36 @@
+---
+title: "Display legend for categorical data"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Display legend for categorical data}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+The rscatter function has an argument `showLegend` to create a legend if using `colorBy` with a categorical data type. Below we plot the [UMAP](https://alleninstitute.org/resource/what-is-a-umap/) of 1.1M cells from the [Tabula Sapiens](https://tabula-sapiens.sf.czbiohub.org/) dataset and color the points by cell type.
+
+```{r static, out.width="100%", fig.width=10, fig.height=8}
+library(rscatter)
+input <- if (file.exists("tabula_sapiens.parquet")) {
+  "tabula_sapiens.parquet"
+} else {
+  "https://davidpross.com/tabula_sapiens.parquet"
+}
+cells <- arrow::read_parquet(input)
+labels <- readLines("cell_type_mapping.csv")
+rscatter(
+  cells$umap1,
+  cells$umap2,
+  colorBy = factor(cells$cell_type, labels = labels),
+  showLegend = TRUE
+)
+```
+
+The legend above has interactivity where you can hover above a label to select points with that cell type and click the label to "lock" the selection.
