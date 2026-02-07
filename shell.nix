@@ -7,6 +7,7 @@ pkgs.mkShell {
     pkgs.rPackages.htmlwidgets
     pkgs.rPackages.knitr
     pkgs.rPackages.pkgdown
+    pkgs.rPackages.remotes
     pkgs.rPackages.rmarkdown
     pkgs.rPackages.testthat
     pkgs.gettext
