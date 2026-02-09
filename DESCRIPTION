@@ -1,6 +1,6 @@
 Package: rscatter
 Title: R Wrapper for 'regl-scatterplot' JavaScript Library
-Version: 0.1.1.9000
+Version: 0.2.0
 Authors@R: 
     person("David", "Ross", , "dave@davidpross.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-9998-3817"))
@@ -8,12 +8,13 @@ Description: Using htmlwidgets framework provide an R function to wrap the regl-
 License: MIT
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.1
+RoxygenNote: 7.3.3
 Imports: 
     htmlwidgets (>= 1.5.4)
 Suggests: 
     knitr,
     rmarkdown,
+    arrow,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 VignetteBuilder: knitr

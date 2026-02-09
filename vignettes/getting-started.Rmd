@@ -39,7 +39,7 @@ library(rscatter)
 rscatter(rnorm(1e4), rnorm(1e4))
 ```
 
-You can interact with the rendered plot by zooming and panning it. There is no support [yet](https://github.com/davidpross/rscatter/issues/6) for displaying axes and a legend.
+You can interact with the rendered plot by zooming and panning it.
 
 ## Plotting values in a data.frame
 
@@ -55,6 +55,6 @@ fermat_spiral = data.frame(
 rscatter("x", "y", size = 1.5, colorBy = "branch", data = fermat_spiral)
 ```
 
-Even with ~10K points the plot renders quickly and is responsive when interacting with it.
+Even with ~10K points the plot renders quickly and is responsive when interacting with it. To learn about the `colorBy` parameter used here see [the next article](https://davidpross.github.io/rscatter/articles/color-encoding.html).
 
 

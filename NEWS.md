@@ -1,6 +1,8 @@
 # rscatter 0.2.0
 
 - Upgrade underlying regl-scatterplot JavaScript library to v1.14.1.
+- Add `showLegend` argument to build interactive legend when `colorBy` is categorical.
+- Default normalization now preserves aspect ratio. Use `preserveAspect = FALSE` for old behavior where x and y are normalized independently.
 
 # rscatter 0.1.1
 

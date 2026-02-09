@@ -169,12 +169,19 @@ HTMLWidgets.widget({
         });
 
         // Configure plot settings
+        const canvasRect = canvas.getBoundingClientRect();
+        const canvasAspect = canvasRect.width / canvasRect.height;
+        // Adjust camera distance to ensure points fit in non-square canvases
+        // Data aspect is 1:1, so if canvas is narrower, zoom out more
+        const cameraDistance = canvasAspect < 1 ? 1.0 / canvasAspect : 1.0;
+
         plot.set({
           keyMap: {},
           pointColorHover: "#000000",
           pointColor: x.options.color,
           pointSize: x.options.size,
           colorBy: x.options.colorBy,
+          cameraDistance: cameraDistance * 1.05, // Add 5% padding
         });
 
         if (x.options.opacity) {
